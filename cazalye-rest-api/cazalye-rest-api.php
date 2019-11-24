@@ -79,9 +79,12 @@ add_action( 'rest_api_init', function () {
     function get_post_media( $post ) {
         // return wp_get_attachment_metadata(10495);
         $medias = get_attached_media( 'image', $post->id );
+        $feature_image_id = get_post_thumbnail_id($post->id);
         $ret = array();
         foreach ( $medias as $media) {
-            array_push($ret, wp_get_attachment_metadata($media->ID));
+            if ($media->ID != $feature_image_id) {
+                array_push($ret, wp_get_attachment_metadata($media->ID));
+            }
         }
         
         
